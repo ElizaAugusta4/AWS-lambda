@@ -11,5 +11,6 @@ def echo():
     data = request.get_json()
     return jsonify({"echo": data})
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ != "__main__":
+    # AWS Lambda handler
+    from awslambdaric.lambda_handler import handler
