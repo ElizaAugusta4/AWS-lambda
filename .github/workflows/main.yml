@@ -1,16 +1,20 @@
 name: deploy to lambda
 on: [push]
-jobs:
 
+jobs:
   deploy_zip:
     name: deploy lambda function
     runs-on: ubuntu-latest
     steps:
       - name: checkout source code
         uses: actions/checkout@v3
-      - name: Generate Zip 
+      - name: Install dependencies
         run: |
-          zip deployment.zip *.py
+          pip install -r requirements.txt --target ./package
+      - name: Generate Zip
+        run: |
+          cd package && zip -r ../deployment.zip . && cd ..
+          zip -g deployment.zip *.py
       - name: default deploy
         uses: appleboy/lambda-action@v0.2.0
         with:
